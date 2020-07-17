@@ -5,9 +5,357 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #div1 {
+            text-align: center;
+            font-size: 48px;
+            color: violet;
+        }
+
+        #synchronous {
+            background-color: antiquewhite;
+            float: left;
+            width: 45%;
+            height: 850px;
+            margin-right: 2%;
+            margin-left: 2%;
+            font-size: 22px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        li {
+            margin-left: 60px;
+        }
+
+        #asynchronous {
+            background-color: antiquewhite;
+            float: left;
+            width: 50%;
+            height: 850px;
+            font-size: 22px;
+        }
+
+        img {
+            display: block;
+            margin: auto;
+        }
+
+        #myXMLHttpRequest {
+            margin-top: 20px;
+            float: left;
+            width: 45%;
+            height: 385px;
+            margin-right: 2%;
+            margin-left: 2%;
+            margin-bottom: 2%;
+            font-size: 22px;
+            background-color: antiquewhite;
+        }
+
+        #ambos {
+            margin-top: 20px;
+            margin-bottom: 2%;
+            float: left;
+            width: 45%;
+            height: 385px;
+            font-size: 22px;
+            background-color: antiquewhite;
+        }
+
+        #ambos p {
+            margin-left: 10%;
+            font-weight: bold;
+            color: red;
+        }
+
+        #object_properties {
+            font-size: 42px;
+        }
+
+        #readyState_XMLHttpRequest {
+            margin-top: 20px;
+            margin-bottom: 2%;
+            float: left;
+            width: 45%;
+            margin-right: 2%;
+            margin-left: 2%;
+            font-size: 22px;
+            background-color: antiquewhite;
+        }
+
+        #readyState_XMLHttpRequest p {
+            margin-left: 7%;
+            margin-right: 7%;
+        }
+
+        #readyState_XMLHttpRequest h2 {
+            text-align: center;
+        }
+
+        #status_XMLHttpRequest {
+            margin-top: 20px;
+            float: left;
+            width: 45%;
+            margin-bottom: 2%;
+            height: 345px;
+            margin-right: 2%;
+            margin-left: 2%;
+            font-size: 22px;
+            background-color: antiquewhite;
+        }
+
+        #status_XMLHttpRequest p {
+            margin-left: 7%;
+            margin-right: 7%;
+        }
+
+        #status_XMLHttpRequest h2 {
+            text-align: center;
+        }
+
+        #object_method {
+            font-size: 42px;
+        }
+
+        #method_XMLHttpRequest {
+            padding-top: 5px;
+            margin-left: 2%;
+            margin-right: 4%;
+            background-color: antiquewhite;
+            font-size: 22px;
+            height: 600px;
+            margin-bottom: 2%;
+        }
+
+        #method_XMLHttpRequest p {
+
+            text-align: center;
+        }
+
+        #open {
+            float: left;
+            width: 45%;
+            margin-left: 2%;
+            margin-bottom: 2%;
+            border: white 2px dashed;
+            background-color: thistle;
+
+        }
+
+        #open h2 {
+            text-align: center;
+        }
+
+        #ul-method {
+            margin-left: 600px;
+        }
+
+        #send {
+            float: left;
+            width: 48.5%;
+            height: 345px;
+            margin-left: 2%;
+            margin-right: 2%;
+            border: white 2px dashed;
+            background-color: thistle;
+            margin-bottom: 2%;
+
+        }
+
+        #send h2 {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
+    <!--
+        ¿QUÉ ES AJAX?
+
+        Es una técnica de desarrollo web para crear aplicaciones interactivas.
+
+        Significado de la palabra AJAX:
+                "Javascript Asíncorono y XML"
+
+        No es un lenguaje de programación como tal, sino la combinación de ámbas
+        técnicas. Vamos a trabajar con javascrip, xml, DOM de html, etc...
+
+        Cuando trabajamos con AJAX, la base de la programación es el objeto
+        'XMLHttpRequest'. Que nos va a permitir solicitar datos a un servidor y 
+        procesarlos.
+        
+        Hasta ahora habíamos estado trabajando con datos desde el lado del Cliente,
+        ahora necesitamos conectarnos al servidor, recibir datos de él y procesar
+        dichos datos.
+
+        A la hora de procesar los datos, podemos envíar texto, documentos
+        xml, documentos json, etc.
+
+        La peculiaridad que tiene AJAX es que podemos actualizar lás páginas de
+        forma ASINCRONA.
+
+        ASINCRONA -> intercambiamos datos con el servidor, pero en un segundo 
+                     plano. Aparéntemente no vemos esa transmisión con el servidor.
+
+        La mejor manera de entenderlo es con los 2 graficos de la web.
+
+
+
+
+    -->
+    <div id="div1">
+        <h1>AJAX - INTRODUCCIÓN</h1>
+        <h3>Curso para aprender a trabajar con AJAX</h3>
+    </div>
+    <div class="cont1">
+        <div id="synchronous">
+            <h1>MODELO CLÁSICO WEB - Esquema Synchronous</h1>
+            <img src="img/synchronous_scheme.png" alt="" width="80%">
+            <ol>
+                <li>Mandamos una solicitud al servidor. </li>
+                <li>El servidor la procesa y la devuelve.</li>
+                <li>En el tiempo que transcurre desde que se manda la solicitud
+                    y se devuelven los datos: SE PIERDE LA CONEXIÓN.
+                </li>
+                <li>Durante ese tiempo de perdida de conexión, la página se
+                    queda en blanco, SE RECARGA.
+                </li>
+            </ol>
+
+        </div>
+
+        <div id="asynchronous">
+            <h1>MODELO WEB CON AJAX - Esquema Asynchronous</h1>
+            <img src="img/asynchronous_scheme.png" alt="" width="80%">
+            <ol>
+                <li>El cliente (navegador) se mantiene activo en todo momento.</li>
+                <li>Realizamos la solicitud al servidor.</li>
+                <li>Mediante el motor AJAX, las solicitudes son enviadas y el
+                    servidor las procesa. </li>
+                <li>Devuelve los datos al motor AJAX y los datos son eviados a
+                    la página.
+                </li>
+            </ol>
+        </div>
+    </div>
+    <hr>
+
+
+    <div id="myXMLHttpRequest">
+        <h1>Objeto XMLHttpRequest</h1>
+        <ol>
+            <li>Lo podemos crear directamente dentro de una variable.</li>
+            <li>variable = new XMLHttpRequest();</li>
+            <li>De esta manera creamos el objeto en los navegadors modernos.</li>
+            <li>Para crearlo en versiones antiguas de Internet Explorer necesitamos
+                un objeto de ActiveX.
+            </li>
+            <li>variable = new ActiveXObject("Microsoft.XMLHTTP");</li>
+        </ol>
+    </div>
+
+    <div id="ambos">
+        <h1>Ejemplo con todo tipo de navegador</h1>
+        <ol>
+            <li>Si queremos tener en cuenta navegadores modernos y versiones
+                antiguas de IE.
+            </li>
+            <li>Ejemplo:</li>
+        </ol>
+        <p id="miParrafo">var xhttp; <br>
+            if(window.XMLHttpRequest){<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;xhttp = new XMLHttpRequest();<br>
+            }else { <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// code for IE6, IE5 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;xhttp = new ActiveXObject("Microsoft.XMLHTTP"); <br>
+            }
+        </p>
+    </div>
+    <hr>
+
+    <h1 id="object_properties">XMLHttpRequest Object Properties</h1>
+
+    <div id="readyState_XMLHttpRequest">
+        <h2>readyState</h2>
+        <p>Cuando hacemos una petición al servidor, desemboca un proceso que
+            consta de 5 fases:
+        </p>
+        <ol>
+            <li>0: request not initialized (solicitud no inicializada)</li>
+            <li>1: server connection established (se establece la conexión con el servidor)
+            </li>
+            <li>2: request received (se recibe la solicitud)
+            </li>
+            <li>3: processing request (se procesa la solicitud)
+            </li>
+            <li>4: request finished and response is ready (la solicitud ha finalizado
+                y la respuesta está lista)
+            </li>
+        </ol>
+    </div>
+
+    <div id="status_XMLHttpRequest">
+        <h2>status</h2>
+        <p>Status nos indica cúal es el número de estado de una solicitud. Y son 3:
+        </p>
+        <ol>
+            <li>200: "OK"</li>
+            <li>403: "Forbidden"</li>
+            <li>404: "Not Found"</li>
+        </ol>
+        <p>Nos interesa el "status 200: OK", que nos indica que el procesamiento
+            ha sido correcto.
+        </p>
+    </div>
+
+    <h1 id="object_method">XMLHttpRequest Object Methods</h1>
+
+    <div id="method_XMLHttpRequest">
+        <p>Por último, tenemos 2 métodos muy importantes a tener en cuenta. Que son:</p>
+        <ul id="ul-method">
+            <li>open(method, url, async, user, psw)</li>
+            <li>send()</li>
+        </ul>
+        <div id="open">
+            <h2>open()</h2>
+            <p>Hay que especificar por párametro lo siguiente: </p>
+            <ul>
+                <li>method: si la petición es de tipo <strong>GET</strong> o
+                    <strong>POST</strong>
+                </li>
+                <li>url: localización del fichero</li>
+                <li>async:
+                    <ul>
+                        <li><strong>true</strong> si es asíncrono</li>
+                        <li><strong>false</strong> si no es asíncrono</li>
+                    </ul>
+                </li>
+                <li>user: De forma opcional el nombre de un usuario</li>
+                <li>psw: De forma opcional el password de un usuario</li>
+            </ul>
+        </div>
+        <div id="send">
+            <h2>send()</h2>
+            <ol>
+                <li>Envio de la petición al servidor</li>
+                <li>Sin argumento, <strong>'send()'</strong>: Se usa en peticiones de tipo <strong>GET</strong></li>
+                <li>Con argumento, <strong>'send(string)'</strong>: Se usa en peticiones de tipo <strong>POST</strong>
+                </li>
+            </ol>
+        </div>
+
+        <p>Tanto open() como send() se recomienda que sean procesados después
+            de utlizar la propiedad <strong>onreadystatechange</strong>, que la veremos en
+            un tema posterior.
+        </p>
+    </div>
+
+
+
+
 
 </body>
 
