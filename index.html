@@ -6,77 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <style>
-        table,
-        th,
-        td {
-            border: 1px solid black;
-            border-collapse: collapse;
+    <script>
+        window.addEventListener("load", inicio);
+
+        function inicio() {
+            document.getElementById("nombre").addEventListener("keyup", mostrarNombre);
+            //el evento se desencadena cada vez que soltamos una tecla.
         }
 
-        th,
-        td {
-            padding: 5px;
+        function mostrarNombre(e) {
+            //En este caso vamos a hacerlo capturando el evento.
+            var cadena = e.target.value;
+
+            /*También podriamos hacerlo quitando la captura del evento y usar
+                var cadena = document.getElementById("nombre").value;*/
+
+            if (cadena.length == 0) {
+
+                //si al soltar la tecla no hay nada (ej. al borrar)
+                document.getElementById("sugerencia").innerHTML = "";
+
+            } else {//empezamos con AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("sugerencia").innerHTML =
+                            this.responseText;
+                    }
+                };
+
+                xhr.open("GET", "arrayNombres.php?nombre=" + cadena, true);
+                xhr.send();
+            }
+
+
         }
-    </style>
+    </script>
 </head>
 
 <body>
     <!--
-        Partimos con un div que contiene un h1 y un botón y una tabla vacía
-        que se cargará con un catálogo de CDs cuando se pulse el botón.
+        Partimos con un formulario que contiene un cuadro de texto (input) y un
+        párrafo para sugerencias.
+        
+        En el input iremos escribiendo un nombre, y en el párrafo de 'Sugerencias'
+        irán apareciendo posibles nombres en función de lo que vayamos escribiendo.
 
-        La información de este cátalogo la vamos a obtener de un documento XML 
-        que se encuentra alojado en el servidor.
+        Las sugerencias de nombres las recibiremos de un documento .php que estará
+        alojado en el servidor.
 
         A la hora de procesar ésto, lo haremos de maner asíncrona. De modo que 
         el usuario no va a ver en ningún momento que se recarga la página.
     -->
-    <div class="texto">
-        <h1>Colección de CDs</h1>
-        <button id="cargarCatalogo">Carga Catálogo</button>
-    </div>
-
-    <table id="demo"></table>
-
-    <script>
-        document.getElementById("cargarCatalogo").addEventListener("click", cargarCatalogo);
-
-        function cargarCatalogo() {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    cargarXML(this);
-                }
-            };
-            xhr.open("GET", "doc/catalogo-cd's.xml", true);
-            xhr.send();
-        }
-
-        function cargarXML(xml) {
-            //1º. Capturamos la respuesta que nos devuelve el servidor.
-            var docXML = xml.responseXML;
-
-            //2º.- Creamos la tabla donde vamos a mostrar la información
-            var tabla = "<tr><th>Artista</th><th>Título</th></tr>"//cabecera de la tabla
-
-            //3.- Ahora vamos a recuperar los datos almacenados en docXML para el resto de filas.
-            var disco = docXML.getElementsByTagName("CD");
-
-            //4.- Recorremos el array creado.
-            for (var i = 0; i < disco.length; i++) {
-                tabla += "<tr><td>";
-                tabla += disco[i].getElementsByTagName("ARTIST")[0].textContent;
-                tabla += "</td><td>";
-                tabla += disco[i].getElementsByTagName("TITLE")[0].textContent;
-                tabla += "</td></tr>";
-            }
-
-            //5.- Pasamos el código creado a la tabla definida en el html.
-            document.getElementById("demo").innerHTML = tabla;
-        }
-    </script>
-
+    <p><b>Escribe un nombre en el cuadro inferior:</b></p>
+    <form action="">
+        Nombre:
+        <input type="text" id="nombre" autocomplete="off" />
+    </form>
+    <p>Sugerencias: <span id="sugerencia"></span></p>
 </body>
 
 </html>
