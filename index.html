@@ -11,22 +11,18 @@
 
         function inicio() {
             document.getElementById("nombre").addEventListener("keyup", mostrarNombre);
-            //el evento se desencadena cada vez que soltamos una tecla.
+
         }
 
         function mostrarNombre(e) {
-            //En este caso vamos a hacerlo capturando el evento.
-            var cadena = e.target.value;
 
-            /*También podriamos hacerlo quitando la captura del evento y usar
-                var cadena = document.getElementById("nombre").value;*/
+            var cadena = e.target.value;
 
             if (cadena.length == 0) {
 
-                //si al soltar la tecla no hay nada (ej. al borrar)
                 document.getElementById("sugerencia").innerHTML = "";
 
-            } else {//empezamos con AJAX
+            } else {
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -34,9 +30,10 @@
                             this.responseText;
                     }
                 };
-
-                xhr.open("GET", "arrayNombres.php?nombre=" + cadena, true);
-                xhr.send();
+                //PETICIÓN CON POST
+                xhr.open("POST", "arrayNombres.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send("nombre=" + cadena);
             }
 
 
