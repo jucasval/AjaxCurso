@@ -5,62 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-    <script>
-        window.addEventListener("load", inicio);
-
-        function inicio() {
-            document.getElementById("nombre").addEventListener("keyup", mostrarNombre);
-
-        }
-
-        function mostrarNombre(e) {
-
-            var cadena = e.target.value;
-
-            if (cadena.length == 0) {
-
-                document.getElementById("sugerencia").innerHTML = "";
-
-            } else {
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("sugerencia").innerHTML =
-                            this.responseText;
-                    }
-                };
-                //PETICIÓN CON POST
-                xhr.open("POST", "arrayNombres.php", true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.send("nombre=" + cadena);
-            }
-
-
-        }
-    </script>
 </head>
 
 <body>
+    <div id="demo"></div>
     <!--
-        Partimos con un formulario que contiene un cuadro de texto (input) y un
-        párrafo para sugerencias.
-        
-        En el input iremos escribiendo un nombre, y en el párrafo de 'Sugerencias'
-        irán apareciendo posibles nombres en función de lo que vayamos escribiendo.
+        JSON (Javascript Object Notation).
 
-        Las sugerencias de nombres las recibiremos de un documento .php que estará
-        alojado en el servidor.
+        Nos permite enviar y recibir datos en forma de cadena con la notación
+        que tienen  los objetos en javascript.
 
-        A la hora de procesar ésto, lo haremos de maner asíncrona. De modo que 
-        el usuario no va a ver en ningún momento que se recarga la página.
+            - Sintaxis para guardar e intercambiar datos
+            - Texto escrito n notación de objetos de Javascript
+            - JSON es más corto que XML, más rápido de leer y escribir
+              y puede usar arrays.
     -->
-    <p><b>Escribe un nombre en el cuadro inferior:</b></p>
-    <form action="">
-        Nombre:
-        <input type="text" id="nombre" autocomplete="off" />
-    </form>
-    <p>Sugerencias: <span id="sugerencia"></span></p>
+    <script>
+        /*
+        SINTAXIS
+            - Datos: "nombre":"valor" (SIEMPRE, el nombre datos va entre comillas)
+            - Valor: número, booleano y null SIN COMILLAS; cadena (CON COMILLAS); objetos (ENTRE LLAVES); array (ENTRE CORCHETES).
+                     OJO. MUY IMPORTANTE. No podemos enviar ni funciones, ni fechas ni undefined.
+
+            Eje. var juanfran = {"nombre":"Juanfran", "nacimiento":1972, "pais":"España"}
+           
+        */
+
+
+
+        //OBJETOS: nombre del objeto y entre llaves, par nombre: valor.
+        var obj1 = { "nombre": "Juanfran", "nacimiento": 1972, "pais": "España" }
+
+        //ACCESO A UN OBJETO: utilizamos la notación punto.
+        document.write(obj1.nombre + ": " + obj1.nacimiento + ": " + obj1.pais);
+
+        //RECORRER LOS NOMBRE DE UN OBJETO
+        for (var x in obj1) {
+            document.getElementById("demo").innerHTML += x + ":" + obj1[x] + "<br/>";
+        }
+
+    </script>
+
 </body>
 
 </html>
