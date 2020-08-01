@@ -37,12 +37,64 @@
         var obj1 = { "nombre": "Juanfran", "nacimiento": 1972, "pais": "España" }
 
         //ACCESO A UN OBJETO: utilizamos la notación punto.
-        document.write(obj1.nombre + ": " + obj1.nacimiento + ": " + obj1.pais);
+        document.write(obj1.nombre + ": " + obj1.nacimiento + ": " + obj1.pais + "<br/>");
 
-        //RECORRER LOS NOMBRE DE UN OBJETO
+        //RECORRER LOS NOMBRES DE UN OBJETO
         for (var x in obj1) {
             document.getElementById("demo").innerHTML += x + ":" + obj1[x] + "<br/>";
         }
+
+        //OBJETOS QUE CONTIENEN OTROS OBJETOS
+        var obj2 = {
+            "nombre": "Juanfran",
+            "nacimiento": 1972,
+            "pais": "España",
+            "hijos": {
+                "hijo1": "Eva",
+                "hijo2": "Hugo",
+                "hijo3": "Esther"
+            }
+        }
+
+        //ACCESO A UN OBJETO DENTRO DE OTRO OBJETO
+        var y = obj2.hijos.hijo1; //obj2.hijos["hijo1"];
+        document.write("El hijo1 es: " + y + "<br/>");
+
+        //ARRAYS: Nombre del array, y entre corchete los valores
+        var hijos = {
+            "hijos": ["Eva Ferrer", "Hugo Guillén", "Esther Rodríguez"]
+        }
+
+        var obj3 = {
+            "nombre": "Juanfran",
+            "nacimiento": 1972,
+            "pais": "España",
+            "hijos": ["Eva Ferrer", "Hugo Guillén", "Esther Rodríguez"]
+        }
+
+        //ACCESO
+        var z = obj3.hijos[1];
+        document.write("El hijo 2 es " + z + "</br>");
+
+        //RECORRER LOS ELEMENTOS DE UN ARRAY
+        var z1 = "";
+        for (var i in obj3.hijos) {
+            z1 += obj3.hijos[i] + ", ";
+        }
+
+        document.getElementById("demo").innerHTML += "Todos los hijos: "
+            + z1 + "</br>";
+
+        //RECORRER COMO SI FUERA UN ARRAY PURO Y DURO
+        var z2 = "";
+        for (var i = 0; i < obj3.hijos.length; i++) {
+            z2 += obj3.hijos[i] + ", ";
+        }
+
+        document.getElementById("demo").innerHTML += "[ARRAY] Todos los hijos: "
+            + z2 + "</br>";
+
+        //SI QUEREMOS BORRAR ELEMENTOS DE UN OBJETO, UTILIZAMOS "delete"
 
     </script>
 
