@@ -5,98 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        window.addEventListener("load", inicio);
+
+        function inicio() {
+            document.getElementById("mostrar").addEventListener("click", mostrar);
+        }
+
+        function mostrar() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var objeto = JSON.parse(this.responseText);
+
+                    //mostramos los datos
+                    document.getElementById("parrafo").innerHTML = objeto.nombre +
+                        " nació en " + objeto.nacimiento + " en " + objeto.pais + "<br/>";
+
+                    //si queremos convertir un objeto Javascript en una cadena
+                    var cadena = JSON.stringify(objeto);
+                    document.getElementById("parrafo").innerHTML += "El objeto " + objeto +
+                        " en modo cadena es: " + cadena;
+                }
+            }
+
+            xhr.open("GET", "JSON_objeto.php", true);
+            xhr.send();
+        }
+    </script>
 </head>
 
 <body>
-    <div id="demo"></div>
-    <!--
-        JSON (Javascript Object Notation).
-
-        Nos permite enviar y recibir datos en forma de cadena con la notación
-        que tienen  los objetos en javascript.
-
-            - Sintaxis para guardar e intercambiar datos
-            - Texto escrito n notación de objetos de Javascript
-            - JSON es más corto que XML, más rápido de leer y escribir
-              y puede usar arrays.
-    -->
-    <script>
-        /*
-        SINTAXIS
-            - Datos: "nombre":"valor" (SIEMPRE, el nombre datos va entre comillas)
-            - Valor: número, booleano y null SIN COMILLAS; cadena (CON COMILLAS); objetos (ENTRE LLAVES); array (ENTRE CORCHETES).
-                     OJO. MUY IMPORTANTE. No podemos enviar ni funciones, ni fechas ni undefined.
-
-            Eje. var juanfran = {"nombre":"Juanfran", "nacimiento":1972, "pais":"España"}
-           
-        */
-
-
-
-        //OBJETOS: nombre del objeto y entre llaves, par nombre: valor.
-        var obj1 = { "nombre": "Juanfran", "nacimiento": 1972, "pais": "España" }
-
-        //ACCESO A UN OBJETO: utilizamos la notación punto.
-        document.write(obj1.nombre + ": " + obj1.nacimiento + ": " + obj1.pais + "<br/>");
-
-        //RECORRER LOS NOMBRES DE UN OBJETO
-        for (var x in obj1) {
-            document.getElementById("demo").innerHTML += x + ":" + obj1[x] + "<br/>";
-        }
-
-        //OBJETOS QUE CONTIENEN OTROS OBJETOS
-        var obj2 = {
-            "nombre": "Juanfran",
-            "nacimiento": 1972,
-            "pais": "España",
-            "hijos": {
-                "hijo1": "Eva",
-                "hijo2": "Hugo",
-                "hijo3": "Esther"
-            }
-        }
-
-        //ACCESO A UN OBJETO DENTRO DE OTRO OBJETO
-        var y = obj2.hijos.hijo1; //obj2.hijos["hijo1"];
-        document.write("El hijo1 es: " + y + "<br/>");
-
-        //ARRAYS: Nombre del array, y entre corchete los valores
-        var hijos = {
-            "hijos": ["Eva Ferrer", "Hugo Guillén", "Esther Rodríguez"]
-        }
-
-        var obj3 = {
-            "nombre": "Juanfran",
-            "nacimiento": 1972,
-            "pais": "España",
-            "hijos": ["Eva Ferrer", "Hugo Guillén", "Esther Rodríguez"]
-        }
-
-        //ACCESO
-        var z = obj3.hijos[1];
-        document.write("El hijo 2 es " + z + "</br>");
-
-        //RECORRER LOS ELEMENTOS DE UN ARRAY
-        var z1 = "";
-        for (var i in obj3.hijos) {
-            z1 += obj3.hijos[i] + ", ";
-        }
-
-        document.getElementById("demo").innerHTML += "Todos los hijos: "
-            + z1 + "</br>";
-
-        //RECORRER COMO SI FUERA UN ARRAY PURO Y DURO
-        var z2 = "";
-        for (var i = 0; i < obj3.hijos.length; i++) {
-            z2 += obj3.hijos[i] + ", ";
-        }
-
-        document.getElementById("demo").innerHTML += "[ARRAY] Todos los hijos: "
-            + z2 + "</br>";
-
-        //SI QUEREMOS BORRAR ELEMENTOS DE UN OBJETO, UTILIZAMOS "delete"
-
-    </script>
+    <button id="mostrar">Mostrar</button>
+    <p id="parrafo"></p>
 
 </body>
 
