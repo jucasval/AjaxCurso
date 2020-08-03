@@ -13,33 +13,55 @@
         }
 
         function mostrar() {
+
+            //recogemos el valor del salario que queremos comprobar
+            var salario = document.getElementById("salario").value;
+
+            //NOS DEFINIMOS EL OBJETO QUE VAMOS A ENVIAR AL PHP
+            var objeto = {
+                "tabla": "empleado",
+                "valor": parseInt(salario)
+            }
+
+            //CREAMOS AJAX
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    //Al hacer parse de un array, recibimos un array
-                    var alumnos = JSON.parse(this.responseText);
+                    //capturamos la respuesta del PHP
+                    var array = JSON.parse(this.responseText);
+
+                    //declaramos la variable vacía para ir mostrando los resultados
+                    var txt = "";
 
                     //recorremos el array
-                    for (var i = 0; i < alumnos.length; i++) {
-                        document.getElementById("parrafo").innerHTML += alumnos[i] + "</br>";
+                    for (var x in array) {
+                        txt += array[x].nombre + ": " + array[x].cdemp + ", "
+                            + array[x].salario + "<br/>";
                     }
 
-                    //Para convertir un array js en cadena JSON usamos stringify.
-                    var cadena = JSON.stringify(alumnos);
-                    document.getElementById("parrafo").innerHTML += "El array "
-                        + alumnos + " en modo cadena es " + cadena + "<br/>";
+                    //mostramos los resultados
+                    document.getElementById("texto").innerHTML = txt;
                 }
             }
 
-            xhr.open("GET", "JSON_array.php", true);
-            xhr.send();
+            //pasamos los parametros a cadena para poder pasarlos con GET
+            var parametros = JSON.stringify(objeto)
+            //xhr.open("GET", "BBDD_JSON.php?objeto=" + parametros, true);
+            //xhr.send();
+
+            //PARA PASARLOS COMO POST
+            xhr.open("POST", "BBDD_JSON.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("objeto=" + parametros);
         }
     </script>
 </head>
 
 <body>
-    <button id="mostrar">Mostrar</button>
-    <p id="parrafo"></p>
+    Salario:
+    <input type="number" id="salario" />
+    <button id="mostrar">Enviar</button>
+    <div id="texto"></div>
 
 </body>
 
