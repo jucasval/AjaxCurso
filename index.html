@@ -16,20 +16,22 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    var objeto = JSON.parse(this.responseText);
+                    //Al hacer parse de un array, recibimos un array
+                    var alumnos = JSON.parse(this.responseText);
 
-                    //mostramos los datos
-                    document.getElementById("parrafo").innerHTML = objeto.nombre +
-                        " nació en " + objeto.nacimiento + " en " + objeto.pais + "<br/>";
+                    //recorremos el array
+                    for (var i = 0; i < alumnos.length; i++) {
+                        document.getElementById("parrafo").innerHTML += alumnos[i] + "</br>";
+                    }
 
-                    //si queremos convertir un objeto Javascript en una cadena
-                    var cadena = JSON.stringify(objeto);
-                    document.getElementById("parrafo").innerHTML += "El objeto " + objeto +
-                        " en modo cadena es: " + cadena;
+                    //Para convertir un array js en cadena JSON usamos stringify.
+                    var cadena = JSON.stringify(alumnos);
+                    document.getElementById("parrafo").innerHTML += "El array "
+                        + alumnos + " en modo cadena es " + cadena + "<br/>";
                 }
             }
 
-            xhr.open("GET", "JSON_objeto.php", true);
+            xhr.open("GET", "JSON_array.php", true);
             xhr.send();
         }
     </script>
